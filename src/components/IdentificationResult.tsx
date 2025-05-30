@@ -54,40 +54,40 @@ const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isL
           <table className="w-full text-sm">
             <tbody className="space-y-2">
               <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-nature-yellow">Common Name:</td>
-                <td className="py-3 text-white">{result.commonName}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Common Name:</td>
+                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.commonName}</td>
               </tr>
               <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-nature-yellow">Scientific Name:</td>
-                <td className="py-3 text-white italic">{result.scientificName}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Scientific Name:</td>
+                <td className="py-3 text-white italic bg-black/30 px-3 rounded-r">{result.scientificName}</td>
               </tr>
               <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-nature-yellow">Order:</td>
-                <td className="py-3 text-white">{result.order}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Order:</td>
+                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.order}</td>
               </tr>
               <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-nature-yellow">Habitat:</td>
-                <td className="py-3 text-white">{result.habitat}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Habitat:</td>
+                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.habitat}</td>
               </tr>
               <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-nature-yellow">Diet:</td>
-                <td className="py-3 text-white">{result.diet}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Diet:</td>
+                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.diet}</td>
               </tr>
               <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-nature-yellow">Life Cycle:</td>
-                <td className="py-3 text-white">{result.lifeCycle}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-r">Life Cycle:</td>
+                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.lifeCycle}</td>
               </tr>
               <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-nature-yellow">Geographic Range:</td>
-                <td className="py-3 text-white">{result.geographicRange}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Geographic Range:</td>
+                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.geographicRange}</td>
               </tr>
               <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-nature-yellow">Wingspan/Size:</td>
-                <td className="py-3 text-white">{result.wingspanSize}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Wingspan/Size:</td>
+                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.wingspanSize}</td>
               </tr>
               <tr>
-                <td className="py-3 font-semibold text-nature-yellow">Ecological Role:</td>
-                <td className="py-3 text-white">{result.ecologicalRole}</td>
+                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Ecological Role:</td>
+                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.ecologicalRole}</td>
               </tr>
             </tbody>
           </table>

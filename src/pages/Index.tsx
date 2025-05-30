@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import ImageUpload from '@/components/ImageUpload';
@@ -170,38 +171,6 @@ const Index = () => {
       default:
         return (
           <div className="space-y-6">
-            <Card className="p-4 glass-effect border-green-400/50">
-              <h3 className="text-white font-semibold mb-2">🔑 API Configuration</h3>
-              <p className="text-white/80 text-sm mb-3">
-                API key is configured. You can now identify insects!
-                <a href="https://ai.google.dev/" target="_blank" rel="noopener noreferrer" className="text-nature-yellow hover:underline ml-1">
-                  Get your own API key here
-                </a>
-              </p>
-              <div className="flex gap-2">
-                <Input
-                  type="password"
-                  placeholder="Enter your Gemini API key"
-                  value={apiKey}
-                  onChange={(e) => setApiKey(e.target.value)}
-                  className="flex-1 bg-white/10 border-white/30 text-white placeholder:text-white/50"
-                />
-                <Button 
-                  onClick={() => {
-                    if (apiKey) {
-                      toast({
-                        title: "API Key Saved",
-                        description: "You can now identify insects!",
-                      });
-                    }
-                  }}
-                  className="bg-nature-green hover:bg-nature-green-dark"
-                >
-                  Save
-                </Button>
-              </div>
-            </Card>
-            
             <ImageUpload onImageSelect={handleImageSelect} selectedImage={selectedImage} />
             
             {(identificationResult || isLoading) && (
