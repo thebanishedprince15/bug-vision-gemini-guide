@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				nature: {
+					'yellow-light': '#FEF3C7',
+					'yellow': '#F59E0B',
+					'yellow-dark': '#D97706',
+					'green-light': '#D1FAE5',
+					'green': '#10B981',
+					'green-dark': '#047857',
+					'forest': '#1F2937',
+					'meadow': '#84CC16'
 				}
 			},
 			borderRadius: {
@@ -84,11 +95,48 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'gradient-move': {
+					'0%': {
+						'background-position': '0% 50%'
+					},
+					'50%': {
+						'background-position': '100% 50%'
+					},
+					'100%': {
+						'background-position': '0% 50%'
+					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
+				},
+				'pulse-soft': {
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0.8'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'gradient-move': 'gradient-move 8s ease infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'pulse-soft': 'pulse-soft 2s ease-in-out infinite'
+			},
+			backgroundImage: {
+				'nature-gradient': 'linear-gradient(-45deg, #FEF3C7, #D1FAE5, #84CC16, #F59E0B)',
+				'nature-gradient-dark': 'linear-gradient(-45deg, #D97706, #047857, #1F2937, #10B981)'
+			},
+			backgroundSize: {
+				'400': '400% 400%'
 			}
 		}
 	},
