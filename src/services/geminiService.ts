@@ -15,10 +15,10 @@ interface InsectData {
 export const identifyInsect = async (imageBase64: string, apiKey: string): Promise<InsectData> => {
   console.log('Analyzing image with Gemini API...');
   
+  // Extract base64 data without the data URL prefix
+  const base64Data = imageBase64.split(',')[1] || imageBase64;
+  
   try {
-    // Extract base64 data without the data URL prefix
-    const base64Data = imageBase64.split(',')[1] || imageBase64;
-    
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
