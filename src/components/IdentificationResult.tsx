@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Card } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 interface InsectData {
   commonName: string;
@@ -51,46 +52,82 @@ const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isL
       <Card className="p-6 glass-effect card-hover">
         <h3 className="text-xl font-bold text-white mb-4">🔬 Scientific Details</h3>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <tbody className="space-y-2">
-              <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Common Name:</td>
-                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.commonName}</td>
-              </tr>
-              <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Scientific Name:</td>
-                <td className="py-3 text-white italic bg-black/30 px-3 rounded-r">{result.scientificName}</td>
-              </tr>
-              <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Order:</td>
-                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.order}</td>
-              </tr>
-              <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Habitat:</td>
-                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.habitat}</td>
-              </tr>
-              <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Diet:</td>
-                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.diet}</td>
-              </tr>
-              <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-r">Life Cycle:</td>
-                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.lifeCycle}</td>
-              </tr>
-              <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Geographic Range:</td>
-                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.geographicRange}</td>
-              </tr>
-              <tr className="border-b border-white/20">
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Wingspan/Size:</td>
-                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.wingspanSize}</td>
-              </tr>
-              <tr>
-                <td className="py-3 font-semibold text-gray-800 bg-white/90 px-3 rounded-l">Ecological Role:</td>
-                <td className="py-3 text-white bg-black/30 px-3 rounded-r">{result.ecologicalRole}</td>
-              </tr>
-            </tbody>
-          </table>
+          <Table>
+            <TableBody>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Common Name:
+                </TableCell>
+                <TableCell className="py-3 text-white bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.commonName}
+                </TableCell>
+              </TableRow>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Scientific Name:
+                </TableCell>
+                <TableCell className="py-3 text-white italic bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.scientificName}
+                </TableCell>
+              </TableRow>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Order:
+                </TableCell>
+                <TableCell className="py-3 text-white bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.order}
+                </TableCell>
+              </TableRow>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Habitat:
+                </TableCell>
+                <TableCell className="py-3 text-white bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.habitat}
+                </TableCell>
+              </TableRow>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Diet:
+                </TableCell>
+                <TableCell className="py-3 text-white bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.diet}
+                </TableCell>
+              </TableRow>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Life Cycle:
+                </TableCell>
+                <TableCell className="py-3 text-white bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.lifeCycle}
+                </TableCell>
+              </TableRow>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Geographic Range:
+                </TableCell>
+                <TableCell className="py-3 text-white bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.geographicRange}
+                </TableCell>
+              </TableRow>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Wingspan/Size:
+                </TableCell>
+                <TableCell className="py-3 text-white bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.wingspanSize}
+                </TableCell>
+              </TableRow>
+              <TableRow className="border-none">
+                <TableCell className="py-3 font-bold text-gray-900 bg-white/95 rounded-l border-0 text-sm">
+                  Ecological Role:
+                </TableCell>
+                <TableCell className="py-3 text-white bg-gray-900/80 rounded-r border-0 text-sm">
+                  {result.ecologicalRole}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
       </Card>
     </div>

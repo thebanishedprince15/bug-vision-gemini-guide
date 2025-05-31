@@ -6,9 +6,6 @@ import IdentificationResult from '@/components/IdentificationResult';
 import AppInfo from '@/components/AppInfo';
 import Footer from '@/components/Footer';
 import { identifyInsect } from '@/services/geminiService';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 
 interface InsectData {
@@ -29,17 +26,18 @@ const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [identificationResult, setIdentificationResult] = useState<InsectData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [apiKey, setApiKey] = useState('AIzaSyDGPeSilZ_tqvZ0qML1Ly8nSdYOITRmxtk');
+  const apiKey = 'AIzaSyDGPeSilZ_tqvZ0qML1Ly8nSdYOITRmxtk';
   const { toast } = useToast();
 
   const handleImageSelect = async (image: string) => {
+    console.log('Image selected, starting identification...');
     setSelectedImage(image);
-    setIdentificationResult(null);
+    setIdentificationResult(null); // Clear previous results immediately
     
     if (!apiKey) {
       toast({
         title: "API Key Required",
-        description: "Please enter your Google Gemini API key to identify insects.",
+        description: "Please configure your Google Gemini API key.",
         variant: "destructive"
       });
       return;
@@ -48,6 +46,7 @@ const Index = () => {
     setIsLoading(true);
     try {
       const result = await identifyInsect(image, apiKey);
+      console.log('Identification result:', result);
       setIdentificationResult(result);
       toast({
         title: "Identification Complete!",
@@ -69,7 +68,7 @@ const Index = () => {
     switch (activeTab) {
       case 'about':
         return (
-          <Card className="p-6 glass-effect">
+          <div className="glass-effect rounded-lg p-6">
             <h2 className="text-2xl font-bold text-white mb-4">About Insect Identifier Pro</h2>
             <div className="text-white/90 space-y-4">
               <p>
@@ -92,12 +91,12 @@ const Index = () => {
                 </ul>
               </div>
             </div>
-          </Card>
+          </div>
         );
       
       case 'contact':
         return (
-          <Card className="p-6 glass-effect">
+          <div className="glass-effect rounded-lg p-6">
             <h2 className="text-2xl font-bold text-white mb-4">Contact Us</h2>
             <div className="text-white/90 space-y-4">
               <p>We'd love to hear from you! Whether you have questions, feedback, or suggestions for improvement.</p>
@@ -122,12 +121,12 @@ const Index = () => {
                 </p>
               </div>
             </div>
-          </Card>
+          </div>
         );
       
       case 'guide':
         return (
-          <Card className="p-6 glass-effect">
+          <div className="glass-effect rounded-lg p-6">
             <h2 className="text-2xl font-bold text-white mb-4">User Guide</h2>
             <div className="text-white/90 space-y-6">
               <div>
@@ -165,7 +164,7 @@ const Index = () => {
                 </p>
               </div>
             </div>
-          </Card>
+          </div>
         );
       
       default:
@@ -177,7 +176,7 @@ const Index = () => {
               <IdentificationResult result={identificationResult} isLoading={isLoading} />
             )}
             
-            <AppInfo />
+            {!selectedImage && !isLoading && <AppInfo />}
           </div>
         );
     }
