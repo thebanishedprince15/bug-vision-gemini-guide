@@ -12,6 +12,12 @@ interface InsectData {
   description: string;
 }
 
+interface ValidationResult {
+  isInsect: boolean;
+  detectedType?: string;
+  confidence?: number;
+}
+
 export const identifyInsect = async (imageBase64: string, apiKey: string): Promise<InsectData> => {
   console.log('Analyzing image with Gemini API...');
   
@@ -19,6 +25,59 @@ export const identifyInsect = async (imageBase64: string, apiKey: string): Promi
   const base64Data = imageBase64.split(',')[1] || imageBase64;
   
   try {
+    // First, validate if the image contains an insect
+    const validationResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            {
+              text: `Analyze this image and determine if it contains an insect, bug, or arthropod. Respond with a JSON object in this exact format:
+              {
+                "isInsect": true/false,
+                "detectedType": "description of what you see",
+                "confidence": 0.0-1.0
+              }
+              
+              Consider insects, spiders, beetles, butterflies, moths, ants, bees, wasps, flies, dragonflies, crickets, grasshoppers, and other arthropods as valid insects. If you see a plant, mammal, bird, fish, marine life, inanimate object, or anything else that is not an insect/arthropod, set isInsect to false.`
+            },
+            {
+              inlineData: {
+                mimeType: "image/jpeg",
+                data: base64Data
+              }
+            }
+          ]
+        }],
+        generationConfig: {
+          temperature: 0.1,
+          topK: 32,
+          topP: 1,
+          maxOutputTokens: 256,
+        }
+      })
+    });
+
+    if (validationResponse.ok) {
+      const validationData = await validationResponse.json();
+      if (validationData.candidates && validationData.candidates[0] && validationData.candidates[0].content) {
+        const validationText = validationData.candidates[0].content.parts[0].text;
+        const validationMatch = validationText.match(/\{[\s\S]*\}/);
+        
+        if (validationMatch) {
+          const validation: ValidationResult = JSON.parse(validationMatch[0]);
+          
+          if (!validation.isInsect) {
+            throw new Error(`This image appears to show ${validation.detectedType || 'something other than an insect'}. Please upload an image containing an insect, bug, or arthropod for identification.`);
+          }
+        }
+      }
+    }
+
+    // If validation passes, proceed with detailed identification
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
@@ -82,6 +141,11 @@ export const identifyInsect = async (imageBase64: string, apiKey: string): Promi
     
   } catch (error) {
     console.error('Error calling Gemini API:', error);
+    
+    // If it's a validation error (not an insect), re-throw it
+    if (error instanceof Error && error.message.includes('appears to show')) {
+      throw error;
+    }
     
     // Fallback to a more varied mock response based on some image characteristics
     const mockResponses: InsectData[] = [

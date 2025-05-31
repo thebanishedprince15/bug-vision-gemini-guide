@@ -54,11 +54,21 @@ const Index = () => {
       });
     } catch (error) {
       console.error('Error identifying insect:', error);
-      toast({
-        title: "Identification Failed",
-        description: "There was an error analyzing the image. Please try again.",
-        variant: "destructive"
-      });
+      
+      // Check if it's a validation error (not an insect)
+      if (error instanceof Error && error.message.includes('appears to show')) {
+        toast({
+          title: "Not an Insect",
+          description: error.message,
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Identification Failed",
+          description: "There was an error analyzing the image. Please try again.",
+          variant: "destructive"
+        });
+      }
     } finally {
       setIsLoading(false);
     }
