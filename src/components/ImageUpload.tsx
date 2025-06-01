@@ -43,6 +43,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
     event.target.value = '';
   };
 
+  // Create a wrapper function for native DOM events
+  const createFileInputHandler = () => {
+    return (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const syntheticEvent = {
+        target,
+        currentTarget: target,
+      } as React.ChangeEvent<HTMLInputElement>;
+      handleFileUpload(syntheticEvent);
+    };
+  };
+
   const handleCameraCapture = async () => {
     try {
       setIsLoading(true);
@@ -62,14 +74,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
         input.type = 'file';
         input.accept = 'image/*';
         input.capture = 'environment';
-        input.onchange = handleFileUpload;
+        input.onchange = createFileInputHandler();
         input.click();
       } else {
         // Fallback to regular file input if camera is not available
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
-        input.onchange = handleFileUpload;
+        input.onchange = createFileInputHandler();
         input.click();
       }
     } catch (error) {
@@ -78,7 +90,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = handleFileUpload;
+      input.onchange = createFileInputHandler();
       input.click();
     } finally {
       setIsLoading(false);
