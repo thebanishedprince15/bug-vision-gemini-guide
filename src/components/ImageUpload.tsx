@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import CameraCapture from './CameraCapture';
 
 interface ImageUploadProps {
   onImageSelect: (image: File | string) => void;
@@ -11,6 +12,7 @@ interface ImageUploadProps {
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -43,59 +45,23 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
     event.target.value = '';
   };
 
-  // Create a wrapper function for native DOM events
-  const createFileInputHandler = () => {
-    return (event: Event) => {
-      const target = event.target as HTMLInputElement;
-      const syntheticEvent = {
-        target,
-        currentTarget: target,
-      } as React.ChangeEvent<HTMLInputElement>;
-      handleFileUpload(syntheticEvent);
-    };
+  const handleCameraCapture = (imageData: string) => {
+    console.log('Camera capture completed, calling onImageSelect');
+    setShowCamera(false);
+    onImageSelect(imageData);
   };
 
-  const handleCameraCapture = async () => {
-    try {
-      setIsLoading(true);
-      
-      // Check if we're on a device that supports camera
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        // Request camera permission
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { facingMode: 'environment' } // Use back camera if available
-        });
-        
-        // Stop the stream immediately as we just wanted to check permission
-        stream.getTracks().forEach(track => track.stop());
-        
-        // Now trigger file input with camera capture
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.capture = 'environment';
-        input.onchange = createFileInputHandler();
-        input.click();
-      } else {
-        // Fallback to regular file input if camera is not available
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = createFileInputHandler();
-        input.click();
-      }
-    } catch (error) {
-      console.error('Camera permission denied or not available:', error);
-      // If camera permission is denied, fall back to file input
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = createFileInputHandler();
-      input.click();
-    } finally {
-      setIsLoading(false);
-    }
+  const openCamera = () => {
+    setShowCamera(true);
   };
+
+  const closeCamera = () => {
+    setShowCamera(false);
+  };
+
+  if (showCamera) {
+    return <CameraCapture onCapture={handleCameraCapture} onClose={closeCamera} />;
+  }
 
   return (
     <Card className="p-6 glass-effect card-hover">
@@ -122,7 +88,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
-            onClick={handleCameraCapture}
+            onClick={openCamera}
             className="bg-nature-green hover:bg-nature-green-dark text-white border-0"
             disabled={isLoading}
           >

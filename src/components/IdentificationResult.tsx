@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
@@ -45,7 +44,7 @@ const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isL
     <div className="space-y-6">
       <Card className="p-6 glass-effect card-hover">
         <h2 className="text-2xl font-bold text-white mb-2">{result.commonName}</h2>
-        <p className="text-nature-yellow font-semibold text-lg mb-4 italic">{result.scientificName}</p>
+        <p className="text-green-800 font-semibold text-lg mb-4 italic">{result.scientificName}</p>
         <p className="text-white/90 leading-relaxed">{result.description}</p>
       </Card>
 
