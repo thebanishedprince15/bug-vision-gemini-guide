@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
@@ -18,9 +19,10 @@ interface InsectData {
 interface IdentificationResultProps {
   result: InsectData | null;
   isLoading: boolean;
+  error?: string;
 }
 
-const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isLoading }) => {
+const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isLoading, error }) => {
   if (isLoading) {
     return (
       <Card className="p-6 glass-effect">
@@ -32,6 +34,16 @@ const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isL
             <div className="animate-spin h-8 w-8 border-4 border-white/30 border-t-white rounded-full mx-auto"></div>
           </div>
         </div>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="p-6 glass-effect card-hover">
+        <h2 className="text-2xl font-bold text-white mb-2">Not an Insect</h2>
+        <p className="text-red-400 font-semibold text-lg mb-4">This image is unidentifiable</p>
+        <p className="text-white/90 leading-relaxed">{error}</p>
       </Card>
     );
   }

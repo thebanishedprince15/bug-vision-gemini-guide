@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import ImageUpload from '@/components/ImageUpload';
@@ -26,6 +25,7 @@ const Index = () => {
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [identificationResult, setIdentificationResult] = useState<InsectData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [identificationError, setIdentificationError] = useState<string>('');
   const apiKey = 'AIzaSyDGPeSilZ_tqvZ0qML1Ly8nSdYOITRmxtk';
   const { toast } = useToast();
 
@@ -33,13 +33,10 @@ const Index = () => {
     console.log('Image selected, starting identification...');
     setSelectedImage(image);
     setIdentificationResult(null); // Clear previous results immediately
+    setIdentificationError(''); // Clear previous errors
     
     if (!apiKey) {
-      toast({
-        title: "API Key Required",
-        description: "Please configure your Google Gemini API key.",
-        variant: "destructive"
-      });
+      setIdentificationError('Please configure your Google Gemini API key.');
       return;
     }
 
@@ -57,17 +54,9 @@ const Index = () => {
       
       // Check if it's a validation error (not an insect)
       if (error instanceof Error && error.message.includes('appears to show')) {
-        toast({
-          title: "Not an Insect",
-          description: error.message,
-          variant: "destructive"
-        });
+        setIdentificationError(error.message);
       } else {
-        toast({
-          title: "Identification Failed",
-          description: "There was an error analyzing the image. Please try again.",
-          variant: "destructive"
-        });
+        setIdentificationError('There was an error analyzing the image. Please try again.');
       }
     } finally {
       setIsLoading(false);
@@ -182,11 +171,15 @@ const Index = () => {
           <div className="space-y-6">
             <ImageUpload onImageSelect={handleImageSelect} selectedImage={selectedImage} />
             
-            {(identificationResult || isLoading) && (
-              <IdentificationResult result={identificationResult} isLoading={isLoading} />
+            {(identificationResult || isLoading || identificationError) && (
+              <IdentificationResult 
+                result={identificationResult} 
+                isLoading={isLoading} 
+                error={identificationError}
+              />
             )}
             
-            {!selectedImage && !isLoading && <AppInfo />}
+            {!selectedImage && !isLoading && !identificationError && <AppInfo />}
           </div>
         );
     }
