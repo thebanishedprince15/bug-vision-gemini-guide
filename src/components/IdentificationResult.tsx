@@ -2,6 +2,9 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+import ShareButtons from './ShareButtons';
+import FavoriteButton from './FavoriteButton';
+import { saveToHistory, toggleFavorite } from '@/utils/localStorage';
 
 interface InsectData {
   commonName: string;
@@ -20,18 +23,47 @@ interface IdentificationResultProps {
   result: InsectData | null;
   isLoading: boolean;
   error?: string;
+  selectedImage?: string;
 }
 
-const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isLoading, error }) => {
+const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isLoading, error, selectedImage }) => {
+  const [savedInsectId, setSavedInsectId] = React.useState<string | null>(null);
+  const [isFavorite, setIsFavorite] = React.useState(false);
+
+  React.useEffect(() => {
+    if (result && selectedImage) {
+      const savedInsect = saveToHistory({
+        ...result,
+        image: selectedImage
+      });
+      if (savedInsect) {
+        setSavedInsectId(savedInsect.id);
+        setIsFavorite(savedInsect.isFavorite || false);
+      }
+    }
+  }, [result, selectedImage]);
+
+  const handleFavoriteToggle = (newFavoriteState: boolean) => {
+    if (savedInsectId) {
+      toggleFavorite(savedInsectId);
+      setIsFavorite(newFavoriteState);
+    }
+  };
+
   if (isLoading) {
     return (
       <Card className="p-6 glass-effect">
         <div className="text-center">
-          <div className="animate-pulse-soft text-white text-lg">
+          <div className="animate-pulse text-white text-lg mb-4">
             🔍 Analyzing your insect...
           </div>
-          <div className="mt-4">
+          <div className="mb-4">
             <div className="animate-spin h-8 w-8 border-4 border-white/30 border-t-white rounded-full mx-auto"></div>
+          </div>
+          <div className="space-y-2">
+            <div className="h-4 bg-white/20 rounded animate-pulse"></div>
+            <div className="h-4 bg-white/20 rounded animate-pulse w-3/4 mx-auto"></div>
+            <div className="h-4 bg-white/20 rounded animate-pulse w-1/2 mx-auto"></div>
           </div>
         </div>
       </Card>
@@ -53,11 +85,25 @@ const IdentificationResult: React.FC<IdentificationResultProps> = ({ result, isL
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <Card className="p-6 glass-effect card-hover">
         <h2 className="text-2xl font-bold text-white mb-2">{result.commonName}</h2>
-        <p className="text-green-800 font-semibold text-lg mb-4 italic">{result.scientificName}</p>
-        <p className="text-white/90 leading-relaxed">{result.description}</p>
+        <p className="text-green-700 font-semibold text-lg mb-4 italic">{result.scientificName}</p>
+        <p className="text-white/90 leading-relaxed mb-4">{result.description}</p>
+        
+        <div className="flex gap-3 justify-center">
+          <FavoriteButton 
+            insectId={savedInsectId || undefined}
+            onToggle={handleFavoriteToggle}
+            isFavorite={isFavorite}
+          />
+        </div>
+        
+        <ShareButtons
+          insectName={result.commonName}
+          scientificName={result.scientificName}
+          description={result.description}
+        />
       </Card>
 
       <Card className="p-6 glass-effect card-hover">

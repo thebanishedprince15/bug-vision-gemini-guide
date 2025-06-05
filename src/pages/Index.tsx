@@ -1,9 +1,11 @@
+
 import React, { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import ImageUpload from '@/components/ImageUpload';
 import IdentificationResult from '@/components/IdentificationResult';
 import AppInfo from '@/components/AppInfo';
 import Footer from '@/components/Footer';
+import HistoryView from '@/components/HistoryView';
 import { identifyInsect } from '@/services/geminiService';
 import { useToast } from '@/hooks/use-toast';
 
@@ -65,9 +67,15 @@ const Index = () => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'history':
+        return <HistoryView viewMode="history" />;
+      
+      case 'favorites':
+        return <HistoryView viewMode="favorites" />;
+      
       case 'about':
         return (
-          <div className="glass-effect rounded-lg p-6">
+          <div className="glass-effect rounded-lg p-6 animate-fade-in">
             <h2 className="text-2xl font-bold text-white mb-4">About Insect Identifier Pro</h2>
             <div className="text-white/90 space-y-4">
               <p>
@@ -95,7 +103,7 @@ const Index = () => {
       
       case 'contact':
         return (
-          <div className="glass-effect rounded-lg p-6">
+          <div className="glass-effect rounded-lg p-6 animate-fade-in">
             <h2 className="text-2xl font-bold text-white mb-4">Contact Us</h2>
             <div className="text-white/90 space-y-4">
               <p>We'd love to hear from you! Whether you have questions, feedback, or suggestions for improvement.</p>
@@ -125,7 +133,7 @@ const Index = () => {
       
       case 'guide':
         return (
-          <div className="glass-effect rounded-lg p-6">
+          <div className="glass-effect rounded-lg p-6 animate-fade-in">
             <h2 className="text-2xl font-bold text-white mb-4">User Guide</h2>
             <div className="text-white/90 space-y-6">
               <div>
@@ -176,6 +184,7 @@ const Index = () => {
                 result={identificationResult} 
                 isLoading={isLoading} 
                 error={identificationError}
+                selectedImage={selectedImage}
               />
             )}
             
